@@ -1,5 +1,12 @@
 # config.py
 
+from pathlib import Path
+
+project_root = Path(__file__).parent.parent
+
+prices_path = project_root / 'prices.csv'
+fleet_demand_path = project_root / 'fleet_demand.csv'
+
 # EV fleet parameters
 n_chargers = 10_000
 charger_power_kw = 7
