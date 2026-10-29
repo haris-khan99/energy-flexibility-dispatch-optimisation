@@ -19,3 +19,6 @@ max_fleet_capacity_mwh = (
     * settlement_period_hours
     / 1000
 )
+
+flex_level = 0.5  # Default flexibility level (50%)
+optimisation_method = 'highs'  # Default optimisation method
