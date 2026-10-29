@@ -1,5 +1,5 @@
 import pandas as pd
-from .config import max_fleet_capacity_mwh
+from config import max_fleet_capacity_mwh
 
 def data_preparation():
     """_summary_
