@@ -1,7 +1,7 @@
 # config.py
 
 from dataclasses import dataclass
-from datetime import time
+from datetime import datetime, time
 from pathlib import Path
 
 project_root = Path(__file__).parent.parent
