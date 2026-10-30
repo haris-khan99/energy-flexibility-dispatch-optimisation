@@ -1,6 +1,7 @@
 import pandas as pd
-from config import max_fleet_capacity_mwh, prices_path, fleet_demand_path
 from pathlib import Path
+from config import FleetConfig, ChargingConfig
+from config import prices_path, fleet_demand_path
 
 def load_data(prices_path: Path = prices_path, fleet_demand_path: Path = fleet_demand_path) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
@@ -19,7 +20,7 @@ def load_data(prices_path: Path = prices_path, fleet_demand_path: Path = fleet_d
 
     return prices, fleet_demand
 
-def prepare_data(prices: pd.DataFrame, fleet_demand: pd.DataFrame, max_fleet_capacity_mwh: float = max_fleet_capacity_mwh) -> pd.DataFrame:
+def prepare_data(prices: pd.DataFrame, fleet_demand: pd.DataFrame, max_fleet_capacity_mwh: float = FleetConfig().max_fleet_capacity_mwh) -> pd.DataFrame:
     """
     Prepare the combined dataset for EV fleet optimisation.
 
