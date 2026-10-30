@@ -87,3 +87,36 @@ def optimise_energy(data_by_date: pd.DataFrame, flex_level: float = flex_level, 
         "shifted": shifted_mwh
     }
 
+def run_optimiser(core_dataset: pd.DataFrame, flex_level: float = flex_level, method: str = optimisation_method) -> tuple[pd.DataFrame, list[dict]]:
+    """
+    Run the EV charging optimiser across all dates in the dataset.
+
+    Applies the daily linear programming optimisation separately to each
+    date, updating settlement-period allocations and collecting daily
+    optimisation results.
+
+    Args:
+        core_dataset (pd.DataFrame): Prepared dataset containing forecast demand, day-ahead prices and physical charging capacity.
+        flex_level (float, optional): Maximum fraction of baseline demand that can be shifted up or down within each settlement period.
+        method (str, optional): Linear programming solver used by scipy.optimize.linprog.
+
+    Returns:
+        tuple[pd.DataFrame, list[dict]]: _description_
+    """
+
+    optimised_dataset = core_dataset.copy()
+
+    optimised_dataset["optimised_demand_mwh"] = np.nan
+    optimised_dataset["planned_deviation_mwh"] = np.nan
+
+    daily_results = []
+
+    for _, daily_data in optimised_dataset.groupby("date"):
+        result = optimise_energy(data_by_date=daily_data, flex_level=flex_level, method=method)
+
+        optimised_dataset.loc[daily_data.index, "optimised_demand_mwh"] = result["optimised_allocation"]
+        optimised_dataset.loc[daily_data.index, "planned_deviation_mwh"] = result["planned_deviation_mwh"]
+
+        daily_results.append(result)
+
+    return optimised_dataset, daily_results
