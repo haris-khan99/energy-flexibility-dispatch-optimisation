@@ -191,30 +191,3 @@ def run_optimiser(
         results.append(result)
 
     return optimised, results
-
-
-if __name__ == "__main__":
-    from data_processor import load_data, prepare_data
-
-    fleet_config = FleetConfig()
-    charging_config = ChargingConfig()
-
-    prices, fleet_demand = load_data()
-    core_dataset = prepare_data(
-        prices,
-        fleet_demand,
-        max_fleet_capacity_mwh=fleet_config.max_fleet_capacity_mwh,
-    )
-
-    optimised_dataset, window_results = run_optimiser(
-        core_dataset=core_dataset,
-        charging_config=charging_config,
-        fleet_config=fleet_config,
-    )
-
-    print(optimised_dataset.head())
-    print(f"\nCharging windows optimised: {len(window_results)}")
-    print(
-        "Total gross flex value: "
-        f"£{sum(r['gross_flex_value'] for r in window_results):,.2f}"
-    )

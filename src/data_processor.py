@@ -70,8 +70,3 @@ def prepare_data(prices: pd.DataFrame, fleet_demand: pd.DataFrame, max_fleet_cap
     core_dataset['physical_capacity_mwh'] = max_fleet_capacity_mwh * core_dataset['plugged_in_fraction_avg']
 
     return core_dataset
-
-if __name__ == "__main__":
-    prices, fleet_demand = load_data()
-    prepared_data = prepare_data(prices, fleet_demand)
-    print(prepared_data.head())
